@@ -1,67 +1,45 @@
 import React,{ useState } from "react"
 
-export default function Home({data}) {
+export default function Home(/*{data}*/) {
 
   // const [disable, setDisable] = useState(false)
-  // console.log(pokemon)
-
+  const [fruit, setFruit] = useState('')
+  const addFruit = async () => {
+    const response = await fetch('/api/customers',
+    {
+      method: "POST",
+      body: JSON.stringify( {fruit : fruit}),
+      headers: {
+        'Content-Type' : 'application/json'
+      }
+    })
+    const data = await response.json()
+    console.log(data)
+  }
   return (
         <>
-          sdd
-          {data}
+          <input
+          type='text'
+          value={fruit}
+          onChange = { (e) => setFruit(e.target.value)}
+          />
+          {/* {data} */}
+          <button type="submit" onClick={addFruit}>Add Fruit</button>
         </>
 
 
   )
 }
 
-export async  function getStaticProps(){
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=20")
-    console.log(response);
-    const result = response ? response.json() : null;
-
-    // const res = response.then ( function (response) {
-    //   return response.json()
-    // })
-    // const res = result.then(function (results){ return results})
-    // console.log(res);
-
-    return {
-      props : {
-        data : response.json() || null,
-      },
-    }
-}
-
-
-
-
-
-
-// export async function getStaticProps(context){
-//   const pokemon
-//   let pokemon = ["haha"];
-//   const results = [];
-//   const [results, setResults] = useState([]);
-
-//   try{
-
+// export async  function getStaticProps(){
 //     const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=20")
-//     const {results} = response.json();
-//     console.log(results.data);
-//     const pokemon = {results && ({results.map ( (result, ind) => {
-//       const index = ("00" + (ind+1)).slice(-3);
-//       const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${index}.png`
-//       return{
-//         ...result,
-//         image
-//       }
-//     })}) : NULL}
-//   }
-//   catch(err){
-//     console.log(err);
-//   }
-//   return{
-//     props : results/*{pokemon}*/,
-//   }
+//     console.log(response);
+//     const result = response ? response.json() : null;
+
+
+//     return {
+//       props : {
+//         data : response.json() || null,
+//       },
+//     }
 // }
